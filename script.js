@@ -57,3 +57,10 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('SW error:', err));
   });
 }
+
+windows.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) {
+      loader.classList.add('hide');
+  }
+});
