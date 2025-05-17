@@ -3,6 +3,9 @@ let idiomaActual = 'es';
 
 window.addEventListener('DOMContentLoaded', () => {
 
+let contador = parseInt(localStorage.getItem('contador')) || 0;
+document.getElementById('contador').textContent `Has probado tu suerte ${contador} veces.`;
+
   function cargarFrases(idioma) {
     const archivo = idioma === 'en' ? 'frases_en.json' : 'frases.json';
 
@@ -45,16 +48,15 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
+    document.getElementById("reintentar").classList.add("visible");
+
+    contador++;
+    localStorage.setItem('contador', contador);
+    document.getElementById('contador').textContent = `Has tu suerte ${contador} veces.`;
   }
 
   document.querySelector('button').addEventListener('click', mostrarSuerte);
-});
-
-windows.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  if (loader) {
-      loader.classList.add('hide');
-  }
+  document.getElementById('reintentar').addEventListener('click', mostrarSuerte);
 });
 
 if ('serviceWorker' in navigator) {
@@ -64,3 +66,10 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('SW error:', err));
   });
 }
+
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) {
+      loader.classList.add('hide');
+  }
+});

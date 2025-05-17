@@ -1,7 +1,7 @@
 {
     "name": "Cual es mi suerte de hoy?",
     "short_name": "Suerte",
-    "start_url": "/",
+    "start_url": ".",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
