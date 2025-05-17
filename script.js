@@ -50,6 +50,13 @@ window.addEventListener('DOMContentLoaded', () => {
   document.querySelector('button').addEventListener('click', mostrarSuerte);
 });
 
+windows.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) {
+      loader.classList.add('hide');
+  }
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -57,10 +64,3 @@ if ('serviceWorker' in navigator) {
       .catch(err => console.error('SW error:', err));
   });
 }
-
-windows.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  if (loader) {
-      loader.classList.add('hide');
-  }
-});
