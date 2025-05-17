@@ -1,8 +1,23 @@
-let frases = [];
+let frases = []
+let idiomaActual = 'es'; 
 
-fetch('frases_es.json')
+function cargarFrases(idioma) {
+  const archivo = idioma == 'en' ? 'frases_en.json' : 'frases.json';
+
+  fetch(archivo + '?nocache=' + Date.now())
   .then(res => res.json())
-  .then(data => { frases = data; });
+  .then(data => {
+    frases = data;
+    idiomaActual = idioma;
+    console.log(`Frases en ${idioma === 'en' ? 'ingles' : 'español'} cargadas.`);
+  });
+}
+
+document.getElementById('selector-idioma').addEventListener('change', e => {
+  cargarFrases(e.target.value);
+});
+
+cargarFrases('es');
 
 async function mostrarSuerte() {
   const frase = frases[Math.floor(Math.random() * frases.length)];
