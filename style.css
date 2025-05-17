@@ -31,8 +31,16 @@ button {
   border-radius: 8px;
   cursor: pointer;
   margin-top: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
   background-color: #2563eb;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+}
+
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
 }
