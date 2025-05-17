@@ -1,6 +1,6 @@
 let frases = [];
 
-fetch('frases.json')
+fetch('frases_es.json')
   .then(res => res.json())
   .then(data => { frases = data; });
 
@@ -23,10 +23,23 @@ async function mostrarSuerte() {
   document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
 }
 
-  if (`servidorWorker` in navigador) {
-    windows.addEventListener(`load`, () => {
-      navigator.serviceWorker.register(`/sw.js`)
-        .then(reg => console.log(`SW registrado:`, reg))
-        .catch(err => console.error(`SW error:`, err));
-    });
-  }
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(reg => console.log('SW registrado:', reg))
+      .catch(err => console.error('SW error:', err));
+  });
+}
+
+document.getElementById('selectorIdioma').addEventListener('change', e => {
+  const idioma = e.target.value;
+  fetch(`frases_en.json`)
+  .then(res => res.json())
+  .then(data => {
+    frases = data;
+    console.log(`Frases en ingles cargadas`);
+  })
+  .catch(err => {
+    console.error('Error al cargar el archivo de idioma:', err);
+  });
+});

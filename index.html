@@ -2,16 +2,12 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>¿Cuál es tu suerte de hoy?</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico" type="image/x-ico">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="cual_es_mi_suerte"
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
   <link rel="manifest" href="site.webmanifest">
@@ -19,6 +15,11 @@
 <body>
   <div class="card">
     <h1>¿Cuál es tu suerte de hoy?</h1>
+    <label for="selectorIdioma">Idioma:</label>
+    <select id="selectorIdioma">
+      <option value="es">Español</option>
+      <option value="en">English</option>
+    </select>
     <p id="frase">Haz clic en el botón para descubrir tu destino...</p>
     <p id="resultado"></p>
     <button onclick="mostrarSuerte()">Ver mi suerte</button>
