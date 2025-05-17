@@ -37,7 +37,7 @@ document.getElementById('contador').textContent = `Has probado tu suerte ${conta
 
     const response = await fetch('random.wasm');
     const buffer = await response.arrayBuffer();
-    const { instance } = await WebAssembly.instantiate(buffer);
+    const { instance } = await WebAssembly.instantiate(buffer, {});
     const numero = instance.exports.obtenerAleatorio();
     const tipoPtr = instance.exports.tipoSuerte(numero);
 
