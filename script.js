@@ -55,13 +55,13 @@ document.getElementById('contador').textContent = `Has probado tu suerte ${conta
     document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
   }
 
-  document.querySelector('botonSuerte').addEventListener('click', mostrarSuerte);
+  document.querySelector('#botonSuerte').addEventListener('click', mostrarSuerte);
   document.getElementById('reintentar').addEventListener('click', mostrarSuerte);
 });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('sw.js')
       .then(reg => console.log('SW registrado:', reg))
       .catch(err => console.error('SW error:', err));
   });
