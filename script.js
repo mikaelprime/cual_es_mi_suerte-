@@ -22,3 +22,11 @@ async function mostrarSuerte() {
 
   document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
 }
+
+  if (`servidorWorker` in navigador) {
+    windows.addEventListener(`load`, () => {
+      navigator.serviceWorker.register(`/sw.js`)
+        .then(reg => console.log(`SW registrado:`, reg))
+        .catch(err => console.error(`SW error:`, err));
+    });
+  }
