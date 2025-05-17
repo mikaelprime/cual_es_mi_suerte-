@@ -4,7 +4,7 @@ let idiomaActual = 'es';
 window.addEventListener('DOMContentLoaded', () => {
 
 let contador = parseInt(localStorage.getItem('contador')) || 0;
-document.getElementById('contador').textContent `Has probado tu suerte ${contador} veces.`;
+document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
 
   function cargarFrases(idioma) {
     const archivo = idioma === 'en' ? 'frases_en.json' : 'frases.json';
@@ -48,14 +48,14 @@ document.getElementById('contador').textContent `Has probado tu suerte ${contado
     }
 
     document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
-    document.getElementById("reintentar").classList.add("visible");
+    document.getElementById("reintentar").style.display = "inline-block";
 
     contador++;
     localStorage.setItem('contador', contador);
-    document.getElementById('contador').textContent = `Has tu suerte ${contador} veces.`;
+    document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
   }
 
-  document.querySelector('buttonSuerte').addEventListener('click', mostrarSuerte);
+  document.querySelector('butonSuerte').addEventListener('click', mostrarSuerte);
   document.getElementById('reintentar').addEventListener('click', mostrarSuerte);
 });
 
