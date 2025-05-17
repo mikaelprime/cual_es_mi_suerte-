@@ -55,7 +55,7 @@ document.getElementById('contador').textContent = `Has probado tu suerte ${conta
     document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
   }
 
-  document.querySelector('#botonSuerte').addEventListener('click', mostrarSuerte);
+  document.getElementById('botonSuerte').addEventListener('click', mostrarSuerte);
   document.getElementById('reintentar').addEventListener('click', mostrarSuerte);
 });
 
