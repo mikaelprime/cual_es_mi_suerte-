@@ -2,6 +2,7 @@ let frases = [];
 let idiomaActual = 'es';
 
 window.addEventListener('DOMContentLoaded', () => {
+
   let contador = parseInt(localStorage.getItem('contador')) || 0;
   document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
 
@@ -36,19 +37,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const response = await fetch('random.wasm');
     const buffer = await response.arrayBuffer();
+    const { instance } = await WebAssembly.instantiate(buffer, {});
 
-    const importObject = {
-      env: {
-        memory: new WebAssembly.Memory({ initial: 256 }),
-        table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' }),
-        abort: () => console.log("Abort desde WebAssembly")
-      }
-    };
-
-    const { instance } = await WebAssembly.instantiate(buffer, importObject);
-
-    const numero = instance.exports.obtenerAleatorio();
-    const tipoPtr = instance.exports.tipoSuerte(numero);
+    const numero = instance.exports._obtenerAleatorio();
+    const tipoPtr = instance.exports._tipoSuerte(numero); 
 
     const memory = new Uint8Array(instance.exports.memory.buffer);
     let tipo = "";
