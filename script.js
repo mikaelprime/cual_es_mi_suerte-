@@ -2,9 +2,8 @@ let frases = [];
 let idiomaActual = 'es';
 
 window.addEventListener('DOMContentLoaded', () => {
-
-let contador = parseInt(localStorage.getItem('contador')) || 0;
-document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
+  let contador = parseInt(localStorage.getItem('contador')) || 0;
+  document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
 
   function cargarFrases(idioma) {
     const archivo = idioma === 'en' ? 'frases_en.json' : 'frases.json';
@@ -37,7 +36,17 @@ document.getElementById('contador').textContent = `Has probado tu suerte ${conta
 
     const response = await fetch('random.wasm');
     const buffer = await response.arrayBuffer();
-    const { instance } = await WebAssembly.instantiate(buffer, {});
+
+    const importObject = {
+      env: {
+        memory: new WebAssembly.Memory({ initial: 256 }),
+        table: new WebAssembly.Table({ initial: 0, element: 'anyfunc' }),
+        abort: () => console.log("Abort desde WebAssembly")
+      }
+    };
+
+    const { instance } = await WebAssembly.instantiate(buffer, importObject);
+
     const numero = instance.exports.obtenerAleatorio();
     const tipoPtr = instance.exports.tipoSuerte(numero);
 
@@ -70,6 +79,6 @@ if ('serviceWorker' in navigator) {
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   if (loader) {
-      loader.classList.add('hide');
+    loader.classList.add('hide');
   }
 });
