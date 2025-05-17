@@ -1,60 +1,59 @@
-let frases = []
-let idiomaActual = 'es'; 
+let frases = [];
+let idiomaActual = 'es';
 
-function cargarFrases(idioma) {
-  const archivo = idioma == 'en' ? 'frases_en.json' : 'frases.json';
+window.addEventListener('DOMContentLoaded', () => {
 
-  fetch(archivo + '?nocache=' + Date.now())
-  .then(res => res.json())
-  .then(data => {
-    frases = data;
-    idiomaActual = idioma;
-    console.log(`Frases en ${idioma === 'en' ? 'ingles' : 'español'} cargadas.`);
-  });
-}
+  function cargarFrases(idioma) {
+    const archivo = idioma === 'en' ? 'frases_en.json' : 'frases.json';
 
-document.getElementById('selector-idioma').addEventListener('change', e => {
-  cargarFrases(e.target.value);
-});
-
-cargarFrases('es');
-
-async function mostrarSuerte() {
-  const frase = frases[Math.floor(Math.random() * frases.length)];
-  document.getElementById("frase").textContent = frase;
-
-  const response = await fetch('random.wasm');
-  const buffer = await response.arrayBuffer();
-  const { instance } = await WebAssembly.instantiate(buffer);
-  const numero = instance.exports.obtenerAleatorio();
-  const tipoPtr = instance.exports.tipoSuerte(numero);
-  
-  const memory = new Uint8Array(instance.exports.memory.buffer);
-  let tipo = "";
-  for (let i = tipoPtr; memory[i] !== 0; i++) {
-    tipo += String.fromCharCode(memory[i]);
+    fetch(archivo + '?nocache=' + Date.now())
+      .then(res => {
+        if (!res.ok) throw new Error("No se pudo cargar el archivo: " + res.status);
+        return res.json();
+      })
+      .then(data => {
+        console.log("Contenido del JSON:", data);
+        frases = data;
+        idiomaActual = idioma;
+        console.log(`Frases en ${idioma === 'en' ? 'inglés' : 'español'} cargadas.`);
+      })
+      .catch(err => {
+        console.error('Error al cargar las frases:', err);
+      });
   }
 
-  document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
-}
+  document.getElementById('selectorIdioma').addEventListener('change', e => {
+    cargarFrases(e.target.value);
+  });
 
-  if ('serviceWorker' in navigator) {
+  cargarFrases('es');
+
+  async function mostrarSuerte() {
+    const frase = frases[Math.floor(Math.random() * frases.length)];
+    document.getElementById("frase").textContent = frase;
+
+    const response = await fetch('random.wasm');
+    const buffer = await response.arrayBuffer();
+    const { instance } = await WebAssembly.instantiate(buffer);
+    const numero = instance.exports.obtenerAleatorio();
+    const tipoPtr = instance.exports.tipoSuerte(numero);
+
+    const memory = new Uint8Array(instance.exports.memory.buffer);
+    let tipo = "";
+    for (let i = tipoPtr; memory[i] !== 0; i++) {
+      tipo += String.fromCharCode(memory[i]);
+    }
+
+    document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
+  }
+
+  document.querySelector('button').addEventListener('click', mostrarSuerte);
+});
+
+if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
       .then(reg => console.log('SW registrado:', reg))
       .catch(err => console.error('SW error:', err));
   });
 }
-
-document.getElementById('selectorIdioma').addEventListener('change', e => {
-  const idioma = e.target.value;
-  fetch(`frases_en.json`)
-  .then(res => res.json())
-  .then(data => {
-    frases = data;
-    console.log(`Frases en ingles cargadas`);
-  })
-  .catch(err => {
-    console.error('Error al cargar el archivo de idioma:', err);
-  });
-});
