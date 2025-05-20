@@ -1,5 +1,5 @@
 let frases = [];
-let idiomaActual = 'es';
+let idiomaActual = 'es'; 
 
 window.addEventListener('DOMContentLoaded', () => {
   let contador = parseInt(localStorage.getItem('contador')) || 0;
@@ -14,7 +14,6 @@ window.addEventListener('DOMContentLoaded', () => {
         return res.json();
       })
       .then(data => {
-        console.log("Contenido del JSON:", data);
         frases = data;
         idiomaActual = idioma;
         console.log(`Frases en ${idioma === 'en' ? 'inglés' : 'español'} cargadas.`);
@@ -31,22 +30,33 @@ window.addEventListener('DOMContentLoaded', () => {
   cargarFrases('es');
 
   async function mostrarSuerte() {
+    if (frases.length === 0) {
+      alert('Las frases aún no están cargadas, intenta nuevamente en unos segundos.');
+      return;
+    }
+
     const frase = frases[Math.floor(Math.random() * frases.length)];
     document.getElementById("frase").textContent = frase;
 
-    const response = await fetch('random.wasm');
-    const buffer = await response.arrayBuffer();
-    const { instance } = await WebAssembly.instantiate(buffer);
-    const numero = instance.exports.obtenerAleatorio();
-    const tipoPtr = instance.exports.tipoSuerte(numero);
+    try {
+      const response = await fetch('random.wasm');
+      const buffer = await response.arrayBuffer();
+      const { instance } = await WebAssembly.instantiate(buffer);
+      const numero = instance.exports.obtenerAleatorio();
+      const tipoPtr = instance.exports.tipoSuerte(numero);
 
-    const memory = new Uint8Array(instance.exports.memory.buffer);
-    let tipo = "";
-    for (let i = tipoPtr; memory[i] !== 0; i++) {
-      tipo += String.fromCharCode(memory[i]);
+      const memory = new Uint8Array(instance.exports.memory.buffer);
+      let tipo = "";
+      for (let i = tipoPtr; memory[i] !== 0; i++) {
+        tipo += String.fromCharCode(memory[i]);
+      }
+
+      document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
+    } catch (error) {
+      console.warn('Error al cargar el módulo WASM:', error);
+      document.getElementById("resultado").textContent = "Número de suerte no disponible";
     }
 
-    document.getElementById("resultado").textContent = `Tu número de suerte es ${numero} (${tipo})`;
     document.getElementById("reintentar").style.display = "inline-block";
 
     contador++;
@@ -59,6 +69,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
   AOS.init();
 
+  function mostrarEasterEgg() {
+    const egg = document.getElementById("easterEgg");
+    if (egg.style.display === "block") return;
+    egg.style.display = "block";
+    egg.style.opacity = "1";
+
+    setTimeout(() => {
+      egg.style.opacity = "0";
+      setTimeout(() => { egg.style.display = "none"; }, 500);
+    }, 3000);
+  }
+
   window.addEventListener("keydown", (e) => {
     if (e.shiftKey && e.key.toLowerCase() === "s") {
       mostrarEasterEgg();
@@ -66,27 +88,30 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   let clickCount = 0;
+  let clickTimer;
   document.getElementById("botonSuerte").addEventListener("click", () => {
     clickCount++;
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
     if (clickCount >= 3) {
       mostrarEasterEgg();
       clickCount = 0;
     }
-    setTimeout(() => clickCount = 0, 1500);
   });
 
-  function mostrarEasterEgg() {
-    const egg = document.getElementById("easterEgg");
-    if (egg.style.display === "block") return;
-    egg.style.display = "block";
-    setTimeout(() => {
-      egg.style.opacity = "1";
-    }, 50);
-    setTimeout(() => {
-      egg.style.opacity = "0";
-      setTimeout(() => { egg.style.display = "none"; }, 500);
-    }, 3000);
+  const body = document.body;
+  const toggleDarkBtn = document.getElementById('toggleDarkMode');
+
+  const preferDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (preferDark) {
+    body.classList.add('dark-mode');
+    toggleDarkBtn.setAttribute('aria-pressed', 'true');
   }
+
+  toggleDarkBtn.addEventListener('click', () => {
+    const isDark = body.classList.toggle('dark-mode');
+    toggleDarkBtn.setAttribute('aria-pressed', isDark.toString());
+  });
 });
 
 if ('serviceWorker' in navigator) {

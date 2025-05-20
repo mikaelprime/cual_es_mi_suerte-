@@ -22,12 +22,31 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
 
+  <style>
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0,0,0,0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
 </head>
 <body>
 
   <div id="loader" class="loader" aria-label="Cargando..."></div>
 
-  <main class="card" role="main" aria-labelledby="tituloApp" data-aos="fade-up" data-aos-duration="800">
+  <main
+    class="card"
+    role="main"
+    aria-labelledby="tituloApp"
+    data-aos="fade-up"
+    data-aos-duration="800"
+  >
     <h1 id="tituloApp">¿Cuál es tu suerte de hoy?</h1>
 
     <label for="selectorIdioma" class="sr-only">Seleccionar idioma</label>
@@ -52,13 +71,23 @@
     <button id="reintentar" style="display: none; margin-left: 10px;" aria-hidden="true">
       Volver a intentar
     </button>
+
+    <button id="toggleDarkMode" aria-pressed="false" style="margin-top:1rem;">
+      Cambiar modo oscuro
+    </button>
   </main>
 
-  <div id="easterEgg" role="alert" aria-live="assertive" aria-atomic="true">
+  <div
+    id="easterEgg"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    style="display:none;"
+  >
     ¡Easter Egg activado! 🍀✨
   </div>
 
-  <nav aria-label="Accesos rápidos">
+  <nav aria-label="Accesos rápidos" class="skip-nav">
     <ul class="skip-links">
       <li><a href="#botonSuerte" class="skip-link">Ir al botón Ver mi suerte</a></li>
       <li><a href="#selectorIdioma" class="skip-link">Cambiar idioma</a></li>
@@ -66,8 +95,6 @@
   </nav>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
-
   <script defer src="script.js"></script>
-
 </body>
 </html>
