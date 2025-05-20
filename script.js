@@ -2,7 +2,6 @@ let frases = [];
 let idiomaActual = 'es';
 
 window.addEventListener('DOMContentLoaded', () => {
-
   let contador = parseInt(localStorage.getItem('contador')) || 0;
   document.getElementById('contador').textContent = `Has probado tu suerte ${contador} veces.`;
 
@@ -37,10 +36,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const response = await fetch('random.wasm');
     const buffer = await response.arrayBuffer();
-    const { instance } = await WebAssembly.instantiate(buffer, {});
-
-    const numero = instance.exports._obtenerAleatorio();
-    const tipoPtr = instance.exports._tipoSuerte(numero); 
+    const { instance } = await WebAssembly.instantiate(buffer);
+    const numero = instance.exports.obtenerAleatorio();
+    const tipoPtr = instance.exports.tipoSuerte(numero);
 
     const memory = new Uint8Array(instance.exports.memory.buffer);
     let tipo = "";
@@ -58,6 +56,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('botonSuerte').addEventListener('click', mostrarSuerte);
   document.getElementById('reintentar').addEventListener('click', mostrarSuerte);
+
+  AOS.init();
+
+  window.addEventListener("keydown", (e) => {
+    if (e.shiftKey && e.key.toLowerCase() === "s") {
+      mostrarEasterEgg();
+    }
+  });
+
+  let clickCount = 0;
+  document.getElementById("botonSuerte").addEventListener("click", () => {
+    clickCount++;
+    if (clickCount >= 3) {
+      mostrarEasterEgg();
+      clickCount = 0;
+    }
+    setTimeout(() => clickCount = 0, 1500);
+  });
+
+  function mostrarEasterEgg() {
+    const egg = document.getElementById("easterEgg");
+    if (egg.style.display === "block") return;
+    egg.style.display = "block";
+    setTimeout(() => {
+      egg.style.opacity = "1";
+    }, 50);
+    setTimeout(() => {
+      egg.style.opacity = "0";
+      setTimeout(() => { egg.style.display = "none"; }, 500);
+    }, 3000);
+  }
 });
 
 if ('serviceWorker' in navigator) {
