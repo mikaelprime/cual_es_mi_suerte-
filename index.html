@@ -14,6 +14,8 @@
   <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
   <link rel="manifest" href="site.webmanifest" />
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"  integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"> 
+
   <meta name="description" content="Descubre cuál es tu suerte de hoy con frases motivadoras y divertidas." />
   <meta name="author" content="Tu Nombre o Marca" />
   <meta name="robots" content="index, follow" />
@@ -62,8 +64,12 @@
 
     <p id="resultado" tabindex="0" aria-live="polite" aria-atomic="true"></p>
 
-    <button id="botonSuerte" aria-describedby="descBoton">Ver mi suerte</button>
+    <button id="botonSuerte" aria-describedby="descBoton" data-tooltip="Ver una nueva frase de suerte"
+    <i class="fas fa-random aria-hiddentrue"></i> Ver mi suerte
+  </button>
 
+  <span id="descBoton" class="visually-hidden">Este boton te muestra una nueva frase de suerte</span>
+  
     <p id="contador" aria-live="polite" aria-atomic="true">
       Has probado tu suerte 0 veces.
     </p>

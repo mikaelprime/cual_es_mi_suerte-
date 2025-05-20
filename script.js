@@ -71,13 +71,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   function mostrarEasterEgg() {
     const egg = document.getElementById("easterEgg");
-    if (egg.style.display === "block") return;
-    egg.style.display = "block";
-    egg.style.opacity = "1";
-
+    if (egg.classList.contains("show")) return;
+    egg.classList.add("show");
     setTimeout(() => {
-      egg.style.opacity = "0";
-      setTimeout(() => { egg.style.display = "none"; }, 500);
+      egg.classList.remove("show");
     }, 3000);
   }
 
