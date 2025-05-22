@@ -1168,3 +1168,66 @@ body.dark-mode header {
   clip: rect(0 0 0 0);
   overflow: hidden;
 }
+
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ffffff;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+body.dark-mode #preloader {
+  background-color: #121212;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #0078d4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.centered-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+}
+
+.botonInicio {
+  margin-top: 1.5rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #0078d4, #00c6ff);
+  color: white;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.botonInicio:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 120, 212, 0.4);
+}
