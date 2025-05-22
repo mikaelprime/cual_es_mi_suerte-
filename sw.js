@@ -3,6 +3,7 @@ self.addEventListener(`install`, event => {
         caches.open(`suerte-v1`).then(cache => {
             return cache.addAll([
                 `/`
+                `/index.html`
                 `/misuerte.html`,
                 `/style.css`,
                 `/script.js`,
