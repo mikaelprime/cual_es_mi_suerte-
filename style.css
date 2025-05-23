@@ -1215,19 +1215,93 @@ body.dark-mode #preloader {
   text-align: center;
 }
 
-.botonInicio {
-  margin-top: 1.5rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, #0078d4, #00c6ff);
-  color: white;
-  font-size: 1.2rem;
-  border: none;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.floating-clover {
+  position: absolute;
+  font-size: 20px;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }
 
-.botonInicio:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 120, 212, 0.4);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #f0f4ff, #e2f0ff);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(to bottom, #ffffff, #eef5ff);
+}
+
+.titulo {
+  font-size: 2.8rem;
+  color: #0078d4;
+  margin-bottom: 0.5rem;
+}
+
+.subtitulo {
+  font-size: 1.2rem;
+  color: #444;
+  margin-bottom: 2rem;
+}
+
+.contenido .mensaje {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.btn-profesional {
+  background-color: #0078d4;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.btn-profesional:hover {
+  background-color: #005fa3;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+  border-top: 1px solid #ccc;
+}
+
+@media (max-width: 600px) {
+  .titulo {
+    font-size: 2rem;
+  }
+  .subtitulo {
+    font-size: 1rem;
+  }
+  .btn-profesional {
+    font-size: 1rem;
+    padding: 0.6 rem 1.2rem;
+  }
 }

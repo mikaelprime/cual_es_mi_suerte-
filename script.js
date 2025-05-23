@@ -131,3 +131,16 @@ window.addEventListener('load', () => {
   preloader.classList.add('fade-out');
   setTimeout(() => preloader.style.display = 'none', 500);
 });
+
+document.body.addEventListener('mousemove', (e) => {
+  const clover = document.createElement ('div');
+  clover.className = 'floating-clover';
+  clover.textContent = '🍀';
+  clover.style.left = `${e.clientX}px`;
+  clover.style.top = `${e.clientY}px`;
+  document.body.appendChild(clover);
+  setTimeout(() => {
+    clover.style.opacity = '0';
+    setTimeout(() => clover.remove(), 300);
+  }, 100);
+});

@@ -12,15 +12,26 @@
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
   <link rel="manifest" href="site.webmanifest" />
+  <link href="https://fonts.googleleapis.com/css2?family=Poppins:wght@400:600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Bienvenido a Mi Pagina De La Suerte</h1>
-    </header>
+    <div class="hero">
+        <header>
+            <h1 class="titulo">Bienvenido al inicio de la pagina de la suerte!</h1>
+            <p class="subtitulo">Descubre todas las frases que hay</p>
+        </header>
+        <div class="contenido">
+            <p class="mensaje">Haz click para descubrir tu suerte</p>
+            <button id="btnIrSuerte" class="btn-profesional">
+                <i class="fas fa-magic"></i> Cual es mi suerte?
+            </button>
+        </div>
+    </div>
 
-    <main class="centered-content">
-        <p>Descubre Que Te Depara El Futuro</p>
-        <a href="misuerte.html" class="botonInicio">Cual es mi suerte</a>
-    </main>
+    <footer class="footer">
+        <p>Suerte Infinita A Todos.</p>
+    </footer>
+
+    <script src="inicio.js" defer></script>
 </body>
 </html>
