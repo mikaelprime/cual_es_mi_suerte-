@@ -65,7 +65,7 @@
 
     <p id="resultado" tabindex="0" aria-live="polite" aria-atomic="true"></p>
 
-    <button id="botonSuerte" aria-describedby="descBoton" data-tooltip="Ver una nueva frase de suerte"
+    <button id="botonSuerte" aria-describedby="descBoton" data-tooltip="Ver una nueva frase de suerte">
     <i class="fas fa-random aria-hiddentrue"></i> Ver mi suerte
   </button>
 
@@ -104,6 +104,33 @@
   <div id="preloader">
     <div class="loader"></div>
   </div>
+
+  <div id="modalHistorial" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h2>Historial de Frases</h2>
+      <ul id="listaHistorial"></ul>
+      <button onclick="cerrarModal('modalHistorial')">Cerrar</button>
+    </div>
+  </div>
+
+    <div id="modalFavoritos" class="modal" aria-hidden="true">
+      <div class="modal-content">
+        <h2>Frases Favoritas</h2>
+        <ul id="listaFavoritos"></ul>
+        <button onclick="cerrarModal('modalFavoritos')">Cerrar</button>
+      </div>
+    </div>
+
+    <div class="botones-extra">
+      <button onclick="mostrarHistorial()">Ver Historial</button>
+      <button onclick="mostrarFavoritos()">Ver Favoritos</button>
+    </div>
+
+    <div class="reacciones" aria-label="Reacciones">
+      <button onclick="reaccionar('like')" title="Me gusto">👍</button>
+      <button onclick="reaccionar('meh')" title="Meh">😒</button>
+      <button onclick="reaccionar('dislike')" title="No me gusto">👎</button>
+    </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
   <script defer src="script.js"></script>

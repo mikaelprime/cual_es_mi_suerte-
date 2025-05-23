@@ -144,3 +144,133 @@ document.body.addEventListener('mousemove', (e) => {
     setTimeout(() => clover.remove(), 300);
   }, 100);
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const fraseEl = document.getElementById('frase');
+  const resultadoEl = document.getElementById('resultado');
+  const botonSuerte = document.getElementById('botonSuerte');
+  const contadorEl = document.getElementById('contador');
+  const reintentarBtn = document.getElementById('reintentar');
+  const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
+  const idiomaSelect = document.getElementById('selectorIdioma');
+
+  const historial = [];
+  const favoritos = new Set();
+  let contador = 0;
+
+  const frases = {
+    es: [
+      "Hoy es un buen día para comenzar algo nuevo.",
+      "La suerte favorece a los valientes.",
+      "Una sonrisa atraerá cosas buenas.",
+      "Todo es posible con un poco de magia y café.",
+      "La paciencia es la clave del éxito."
+    ],
+    en: [
+      "Today is a good day to start something new.",
+      "Fortune favors the bold.",
+      "A smile will attract good things.",
+      "Everything is possible with a little magic and coffee.",
+      "Patience is the key to success."
+    ]
+  };
+
+  const emojiReacciones = ['👍', '❤️', '😂', '😮', '😢'];
+
+  function guardarHistorial(frase) {
+    historial.push({ frase, fecha: new Date().toLocaleString() });
+  }
+
+  function mostrarFrase() {
+    const idioma = idiomaSelect.value;
+    const lista = frases[idioma];
+    const index = Math.floor(Math.random() * lista.length);
+    const frase = lista[index];
+
+    fraseEl.textContent = frase;
+    resultadoEl.textContent = '';
+    guardarHistorial(frase);
+    contador++;
+    contadorEl.textContent = `Has probado tu suerte ${contador} veces.`;
+    reintentarBtn.style.display = 'inline';
+    reintentarBtn.setAttribute('aria-hidden', 'false');
+  }
+
+  function mostrarFraseDelDia() {
+    const idioma = idiomaSelect.value;
+    const lista = frases[idioma];
+    const fecha = new Date().toDateString();
+    const index = fecha.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) % lista.length;
+    return lista[index];
+  }
+
+  function crearModal(titulo, contenido) {
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-content">
+        <h2>${titulo}</h2>
+        <div>${contenido}</div>
+        <button onclick="this.parentElement.parentElement.remove()">Cerrar</button>
+      </div>`;
+    document.body.appendChild(modal);
+  }
+
+  function mostrarHistorial() {
+    const contenido = historial.length
+      ? `<ul>${historial.map(item => `<li>${item.frase} <small>${item.fecha}</small></li>`).join('')}</ul>`
+      : '<p>No hay historial aún.</p>';
+    crearModal('Historial de frases', contenido);
+  }
+
+  function mostrarFavoritos() {
+    const contenido = favoritos.size
+      ? `<ul>${[...favoritos].map(f => `<li>${f}</li>`).join('')}</ul>`
+      : '<p>No hay frases favoritas.</p>';
+    crearModal('Tus frases favoritas', contenido);
+  }
+
+  function agregarReacciones() {
+    const contenedor = document.createElement('div');
+    contenedor.className = 'reacciones';
+    emojiReacciones.forEach(emoji => {
+      const btn = document.createElement('button');
+      btn.textContent = emoji;
+      btn.onclick = () => alert(`¡Gracias por reaccionar con ${emoji}!`);
+      contenedor.appendChild(btn);
+    });
+    resultadoEl.appendChild(contenedor);
+  }
+
+  function agregarFavorito() {
+    if (fraseEl.textContent.trim()) {
+      favoritos.add(fraseEl.textContent.trim());
+      alert('Frase añadida a favoritos.');
+    }
+  }
+
+  botonSuerte.addEventListener('click', () => {
+    mostrarFrase();
+    agregarReacciones();
+  });
+
+  reintentarBtn.addEventListener('click', mostrarFrase);
+
+  toggleDarkModeBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    toggleDarkModeBtn.setAttribute(
+      'aria-pressed',
+      document.body.classList.contains('dark-mode')
+    );
+  });
+
+  resultadoEl.textContent = `✨ Frase del día: "${mostrarFraseDelDia()}"`;
+
+  document.addEventListener('keydown', e => {
+    if (e.altKey && e.key === 'h') mostrarHistorial();
+    if (e.altKey && e.key === 'f') mostrarFavoritos();
+    if (e.altKey && e.key === 'a') agregarFavorito();
+  });
+
+  AOS.init();
+});
