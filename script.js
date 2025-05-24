@@ -41,7 +41,7 @@ window.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch('random.wasm');
       const buffer = await response.arrayBuffer();
-      const { instance } = await WebAssembly.instantiate(buffer);
+      const { instance } = await WebAssembly.instantiate(buffer, {});
       const numero = instance.exports.obtenerAleatorio();
       const tipoPtr = instance.exports.tipoSuerte(numero);
 
@@ -175,8 +175,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ]
   };
 
-  const emojiReacciones = ['👍', '❤️', '😂', '😮', '😢'];
-
   function guardarHistorial(frase) {
     historial.push({ frase, fecha: new Date().toLocaleString() });
   }
@@ -230,18 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     crearModal('Tus frases favoritas', contenido);
   }
 
-  function agregarReacciones() {
-    const contenedor = document.createElement('div');
-    contenedor.className = 'reacciones';
-    emojiReacciones.forEach(emoji => {
-      const btn = document.createElement('button');
-      btn.textContent = emoji;
-      btn.onclick = () => alert(`¡Gracias por reaccionar con ${emoji}!`);
-      contenedor.appendChild(btn);
-    });
-    resultadoEl.appendChild(contenedor);
-  }
-
   function agregarFavorito() {
     if (fraseEl.textContent.trim()) {
       favoritos.add(fraseEl.textContent.trim());
@@ -274,3 +260,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   AOS.init();
 });
+
+function agregarReacciones() {
+  const contenedorExistente = document.querySelector('.reacciones');
+  if (contenedorExistente) contenedorExistente.remove();
+
+  const contenedor = document.createElement('div');
+  contenedor.className = 'reacciones';
+
+  const emojiReacciones = ['👍', '❤️', '😂', '😮', '😢'];
+
+  emojiReacciones.forEach(emoji => {
+    const btn = document.createElement('button');
+    btn.textContent = emoji;
+    btn.onclick = () => alert(`Gracias por reaccionar ${emoji}!`);
+    contenedor.appendChild(btn);
+  });
+
+  document.getElementById('resultado').appendChild(contenedor);
+}
