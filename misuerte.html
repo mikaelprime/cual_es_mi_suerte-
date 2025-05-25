@@ -5,24 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>¿Cuál es tu suerte de hoy?</title>
 
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-ico" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png" />
   <link rel="manifest" href="site.webmanifest" />
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"  integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"> 
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
 
   <meta name="description" content="Descubre cuál es tu suerte de hoy con frases motivadoras y divertidas." />
   <meta name="author" content="Tu Nombre o Marca" />
   <meta name="robots" content="index, follow" />
-
   <meta name="color-scheme" content="light dark" />
-
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
 
   <style>
     .sr-only {
@@ -41,15 +39,16 @@
 
 <body>
 
-  <div id="loader" class="loader" aria-label="Cargando..."></div>
+  <div id="preloader" class="loader" aria-label="Cargando..."></div>
 
-  <main
-    class="card"
-    role="main"
-    aria-labelledby="tituloApp"
-    data-aos="fade-up"
-    data-aos-duration="800"
-  >
+  <nav aria-label="Accesos rápidos" class="skip-nav">
+    <ul class="skip-links">
+      <li><a href="#botonSuerte" class="skip-link">Ir al botón Ver mi suerte</a></li>
+      <li><a href="#selectorIdioma" class="skip-link">Cambiar idioma</a></li>
+    </ul>
+  </nav>
+
+  <main class="card" role="main" aria-labelledby="tituloApp" data-aos="fade-up" data-aos-duration="800">
     <h1 id="tituloApp">¿Cuál es tu suerte de hoy?</h1>
 
     <label for="selectorIdioma" class="sr-only">Seleccionar idioma</label>
@@ -62,77 +61,59 @@
     <p id="frase" tabindex="0" aria-live="polite" aria-atomic="true">
       Haz clic en el botón para descubrir tu destino...
     </p>
-
     <p id="resultado" tabindex="0" aria-live="polite" aria-atomic="true"></p>
 
     <button id="botonSuerte" aria-describedby="descBoton" data-tooltip="Ver una nueva frase de suerte">
-    <i class="fas fa-random" aria-hidden="true"></i> Ver mi suerte
-  </button>
+      <i class="fas fa-random" aria-hidden="true"></i> Ver mi suerte
+    </button>
+    <span id="descBoton" class="sr-only">Este botón te muestra una nueva frase de suerte</span>
 
-  <span id="descBoton" class="visually-hidden">Este boton te muestra una nueva frase de suerte</span>
-  
     <p id="contador" aria-live="polite" aria-atomic="true">
       Has probado tu suerte 0 veces.
     </p>
 
-    <button id="reintentar" style="display: none; margin-left: 10px;" aria-hidden="true">
+    <button id="reintentar" hidden aria-hidden="true" style="margin-left: 10px;">
       Volver a intentar
     </button>
 
-    <button id="toggleDarkMode" aria-pressed="false" style="margin-top:1rem;">
+    <button id="toggleDarkMode" aria-pressed="false" style="margin-top: 1rem;">
       Cambiar modo oscuro
     </button>
   </main>
 
-  <div
-    id="easterEgg"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-    style="display:none;"
-  >
+  <div id="easterEgg" role="alert" aria-live="assertive" aria-atomic="true" hidden>
     ¡Easter Egg activado! 🍀✨
   </div>
 
-  <nav aria-label="Accesos rápidos" class="skip-nav">
-    <ul class="skip-links">
-      <li><a href="#botonSuerte" class="skip-link">Ir al botón Ver mi suerte</a></li>
-      <li><a href="#selectorIdioma" class="skip-link">Cambiar idioma</a></li>
-    </ul>
-  </nav>
-
-  <div id="preloader">
-    <div class="loader"></div>
-  </div>
-
-  <div id="modalHistorial" class="modal" aria-hidden="true">
+  <section id="modalHistorial" class="modal" aria-hidden="true">
     <div class="modal-content">
       <h2>Historial de Frases</h2>
       <ul id="listaHistorial"></ul>
       <button onclick="cerrarModal('modalHistorial')">Cerrar</button>
     </div>
+  </section>
+
+  <section id="modalFavoritos" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h2>Frases Favoritas</h2>
+      <ul id="listaFavoritos"></ul>
+      <button onclick="cerrarModal('modalFavoritos')">Cerrar</button>
+    </div>
+  </section>
+
+  <div class="botones-extra">
+    <button onclick="mostrarHistorial()">Ver Historial</button>
+    <button onclick="mostrarFavoritos()">Ver Favoritos</button>
   </div>
 
-    <div id="modalFavoritos" class="modal" aria-hidden="true">
-      <div class="modal-content">
-        <h2>Frases Favoritas</h2>
-        <ul id="listaFavoritos"></ul>
-        <button onclick="cerrarModal('modalFavoritos')">Cerrar</button>
-      </div>
-    </div>
-
-    <div class="botones-extra">
-      <button onclick="mostrarHistorial()">Ver Historial</button>
-      <button onclick="mostrarFavoritos()">Ver Favoritos</button>
-    </div>
-
-    <div class="reacciones" aria-label="Reacciones">
-      <button onclick="reaccionar('like')" title="Me gusto">👍</button>
-      <button onclick="reaccionar('meh')" title="Meh">😒</button>
-      <button onclick="reaccionar('dislike')" title="No me gusto">👎</button>
-    </div>
+  <div class="reacciones" aria-label="Reacciones a la frase">
+    <button onclick="reaccionar('like')" title="Me gustó">👍</button>
+    <button onclick="reaccionar('meh')" title="Meh">😒</button>
+    <button onclick="reaccionar('dislike')" title="No me gustó">👎</button>
+  </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" defer></script>
-  <script defer src="script.js"></script>
+  <script src="script.js" defer></script>
+
 </body>
 </html>
